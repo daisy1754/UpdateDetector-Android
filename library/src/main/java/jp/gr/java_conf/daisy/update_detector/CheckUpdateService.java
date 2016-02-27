@@ -16,6 +16,8 @@ public class CheckUpdateService extends IntentService {
 
     private static final String TAG = CheckUpdateService.class.getSimpleName();
     private static final String EXTRA_KEY_URL = "CheckUpdateService:url";
+    private static final String UPDATE_DETECT_BROADCAST_ACTION_FORMAT =
+            "jp.gr.java_conf.daisy.update_detector.%s.UPDATE";
 
     static Intent intentWithVersionFileUrl(Context context, String url) {
         return new Intent(context, CheckUpdateService.class)
@@ -46,7 +48,8 @@ public class CheckUpdateService extends IntentService {
                 String.format("Check update result: %d, current: %s, latest: %s",
                         updateType, currentVersion, latestVersion));
         if (updateType != UpdateType.UPDATE_TYPE_NO_UPDATE) {
-            Intent broadcastIntent = new Intent("jp.gr.java_conf.daisy.update_detector.UPDATE");
+            Intent broadcastIntent = new Intent(
+                    String.format(UPDATE_DETECT_BROADCAST_ACTION_FORMAT, getPackageName()));
             new DetectedUpdateInfo(currentVersion, updateType).writeBundleToIntent(broadcastIntent);
             sendBroadcast(broadcastIntent);
         }

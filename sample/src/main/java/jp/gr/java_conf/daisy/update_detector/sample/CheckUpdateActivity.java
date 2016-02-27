@@ -30,7 +30,7 @@ public class CheckUpdateActivity extends AppCompatActivity {
                 .start(this);
 
         IntentFilter filter = new IntentFilter();
-        filter.addAction("jp.gr.java_conf.daisy.update_detector.UPDATE");
+        filter.addAction("jp.gr.java_conf.daisy.update_detector." + getPackageName() + ".UPDATE");
         receiver = new DetectUpdateBroadcastReceiver();
         registerReceiver(receiver, filter);
     }
