@@ -1,4 +1,4 @@
-<manifest package="jp.gr.java_conf.daisy.update_detector.updatedetector.sample"
+<manifest package="jp.gr.java_conf.daisy.update_detector.sample"
           xmlns:android="http://schemas.android.com/apk/res/android">
     <application
         android:icon="@mipmap/ic_launcher"
