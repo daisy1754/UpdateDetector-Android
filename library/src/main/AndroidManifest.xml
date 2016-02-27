@@ -1,3 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="jp.gr.java_conf.daisy.update_detector" />
+    package="jp.gr.java_conf.daisy.update_detector">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <application>
+        <service
+            android:name="CheckUpdateService"
+            android:exported="false" />
+    </application>
+</manifest>
