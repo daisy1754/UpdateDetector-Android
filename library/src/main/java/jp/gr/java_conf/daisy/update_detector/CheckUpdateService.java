@@ -15,6 +15,8 @@ import android.util.Log;
 public class CheckUpdateService extends IntentService {
 
     private static final String TAG = CheckUpdateService.class.getSimpleName();
+    static final String EXTRA_KEY_LATEST_VERSION = "CheckUpdateService:version";
+    static final String EXTRA_KEY_UPDATE_TYPE = "CheckUpdateService:updateType";
     private static final String EXTRA_KEY_URL = "CheckUpdateService:url";
     private static final String UPDATE_DETECT_BROADCAST_ACTION_FORMAT =
             "jp.gr.java_conf.daisy.update_detector.%s.UPDATE";
@@ -50,9 +52,19 @@ public class CheckUpdateService extends IntentService {
         if (updateType != UpdateType.UPDATE_TYPE_NO_UPDATE) {
             Intent broadcastIntent = new Intent(
                     String.format(UPDATE_DETECT_BROADCAST_ACTION_FORMAT, getPackageName()));
-            new DetectedUpdateInfo(currentVersion, updateType).writeBundleToIntent(broadcastIntent);
+            broadcastIntent.putExtra(EXTRA_KEY_LATEST_VERSION, latestVersion);
+            broadcastIntent.putExtra(EXTRA_KEY_UPDATE_TYPE, updateType);
             sendBroadcast(broadcastIntent);
         }
+    }
+
+    static String getLatestVersion(Intent intent) {
+        return intent.getStringExtra(EXTRA_KEY_LATEST_VERSION);
+    }
+
+    @SuppressWarnings("ResourceType")
+    static @UpdateType int getUpdateType(Intent intent) {
+        return intent.getIntExtra(EXTRA_KEY_UPDATE_TYPE, UpdateType.UPDATE_TYPE_NO_UPDATE);
     }
 
     private boolean isConnectedToNetwork() {
