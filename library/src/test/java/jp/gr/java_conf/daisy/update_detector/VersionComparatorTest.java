@@ -35,6 +35,7 @@ public class VersionComparatorTest {
     @Test
     public void testPatchUpdate() {
         assertVersionCompareResult("1.0.1", "1.0.0", UPDATE_TYPE_PATCH);
+        assertVersionCompareResult("1.1.1", "1.1", UPDATE_TYPE_PATCH);
         assertVersionCompareResult("1.1.2alpha", "1.1.1alpha", UPDATE_TYPE_PATCH);
         assertVersionCompareResult("1.2.9-beta", "1.2.3-beta", UPDATE_TYPE_PATCH);
     }
@@ -45,6 +46,7 @@ public class VersionComparatorTest {
         assertVersionCompareResult("1.1.9", "1.0.0", UPDATE_TYPE_MINOR);
         assertVersionCompareResult("0.5", "0.3", UPDATE_TYPE_MINOR);
         assertVersionCompareResult("1.2", "1.1", UPDATE_TYPE_MINOR);
+        assertVersionCompareResult("1.1", "1", UPDATE_TYPE_MINOR);
         assertVersionCompareResult("1.2beta", "1.1alpha", UPDATE_TYPE_MINOR);
     }
 

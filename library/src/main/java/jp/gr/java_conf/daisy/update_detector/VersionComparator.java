@@ -22,25 +22,35 @@ public class VersionComparator {
             return UpdateType.UPDATE_TYPE_NO_UPDATE;
         }
 
-        String[] newInfo = newVersion.split("\\.");
-        String[] oldInfo = oldVersion.split("\\.");
+        int[] newVersions = parseVersion(newVersion);
+        int[] oldVersions = parseVersion(oldVersion);
 
-        if (parseIntOrZero(newInfo[0]) > parseIntOrZero(oldInfo[0])) {
+        if (newVersions[0] > oldVersions[0]) {
             return UpdateType.UPDATE_TYPE_MAJOR;
-        }
-        if (newInfo.length > 1
-                && oldInfo.length > 1
-                && parseIntOrZero(newInfo[1]) > parseIntOrZero(oldInfo[1])) {
+        } else if (newVersions[1] > oldVersions[1]) {
             return UpdateType.UPDATE_TYPE_MINOR;
-        }
-        if (newInfo.length > 2
-                && oldInfo.length > 2
-                && parseIntOrZero(newInfo[2]) > parseIntOrZero(oldInfo[2])) {
+        } else if (newVersions[2] > oldVersions[2]){
             return UpdateType.UPDATE_TYPE_PATCH;
         }
         return UpdateType.UPDATE_TYPE_NO_UPDATE;
     }
 
+    /**
+     * Parses version string into array. e.g., "1.3.7" -> [1,3,7].
+     */
+    private int[] parseVersion(String version) {
+        String[] split = version.split("\\.");
+        return new int[] {
+                parseIntOrZero(split[0]),
+                split.length > 1 ? parseIntOrZero(split[1]) : 0,
+                split.length > 2 ? parseIntOrZero(split[2]) : 0
+        };
+    }
+
+    /**
+     * Parses string and parse as integer or default to zero. e.g., "1" -> 1, "2-alpha" -> 2,
+     * "unknown" -> 0
+     */
     private static int parseIntOrZero(String string) {
         Matcher match = NUM_PREFIX_PATTERN.matcher(string);
         if (match.find()) {
